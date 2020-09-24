@@ -5,5 +5,13 @@ export const modules = {
         route: '/modules/personas',
         // middleware: null
 
+    },
+
+    cursos: {
+        active: true,
+        path: './modules/cursos/routes',
+        route: '/modules/cursos',
+        // middleware: null
+
     }
 };

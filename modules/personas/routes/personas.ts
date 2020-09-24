@@ -12,7 +12,6 @@ personaSchema.find(function(err, persona) {
 });
 
 
-
 router.post('/persona', (req, res)=> {
     console.log('viene persona Post: ', req.body);
     const persona = new personaSchema(req.body);
