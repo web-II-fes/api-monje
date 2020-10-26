@@ -1,4 +1,13 @@
 export const modules = {
+
+    auth: {
+        active: true,
+        path: './modules/auth/routes',
+        route: '/modules/auth',
+        // middleware: null
+
+    },
+
     personas: {
         active: true,
         path: './modules/personas/routes',

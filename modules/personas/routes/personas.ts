@@ -3,48 +3,57 @@ import {personaSchema} from './../schemas/personas';
 
 const router = express.Router();
 
-router.get('/persona', (req, res, next) => {
-personaSchema.find(function(err, persona) {
-		if (err) return;
+router.get('/persona',  async (req, res) => {
+    try{
+        let personas = await personaSchema.find()
+         res.send(personas);
+    }catch(err){
+        throw err;
+    }
 
-		res.send(persona);
-	});
 });
 
+router.post('/persona', async (req, res)=> {
 
-router.post('/persona', (req, res)=> {
-    console.log('viene persona Post: ', req.body);
-    const persona = new personaSchema(req.body);
+    try{
+        const persona = new personaSchema(req.body);
+        await persona.save();
 
-    persona.save(function(err, persona) {
-        if (err) {
-            console.log('Error: ', err);
+        res.send(persona);
+    }catch(err){
+        throw err;
+    }
+});
+
+router.get('/personaId/:id',  async (req, res) => {
+    let IdPersona = req.params.id;
+        try{
+            let perosnas = await personaSchema.findById(IdPersona);
+             res.send(perosnas);
+        }catch(err){
+            throw err;
         }
-        res.json(persona);
-    });
+    
+});  
+
+router.put('/persona/:_id', async (req, res) => {
+    try{
+         let persona = await personaSchema.findByIdAndUpdate(req.params._id, req.body);
+         res.send(persona);
+     } catch (err){
+         throw err;
+     } 
 });
 
-
-router.put('/persona/:_id', (req, res) => {
-    // console.log('Viene del PUT', req.params._id);
-    personaSchema.findByIdAndUpdate(req.params._id, req.body, {new: true}, (err, persona) => {
-        if (err) {
-            return err;
-        }
-        return res.send(persona);
-    });
-});
-
-router.delete('/persona/:_id', (req, res, next) =>{
-    console.log('Viene del DELETE', req.params._id);
-    personaSchema.findByIdAndRemove(req.params._id, function(err, persona) {
+router.delete('/persona/:_id', async (req, res, next) =>{
+   let persona = await personaSchema.findByIdAndRemove(req.params._id, function(err, curso) {
     if(err){
         console.log("Error", err);
     }
     console.log("Borrado: ", persona);
     res.json(persona);
 });
-});
+}); 
 
 
 
